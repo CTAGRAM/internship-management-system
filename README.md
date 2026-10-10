@@ -33,6 +33,11 @@ or the placement officer. *(Demo storage resets periodically; see [Deployment](#
 - [Configuration](#configuration)
 - [Team](#team)
 
+> **Working on this codebase (or handing it to an AI assistant)?**
+> [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md) is a complete self-contained briefing —
+> architecture, full schema, every endpoint, the algorithms, design decisions, known limitations
+> and how to extend each part.
+
 ---
 
 ## Quick start
