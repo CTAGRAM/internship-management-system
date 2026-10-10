@@ -84,7 +84,7 @@ each of them, so you do not need to type anything.
 | --- | --- | --- |
 | **Placement Officer** | `tpo@mitadt.edu.in` | Full oversight: students, companies, every application, reports and CSV exports, announcements |
 | **Student** | `bhaskar.kumar@mitadt.edu.in` | Browse and filter openings, see live eligibility, apply, track applications, respond to offers |
-| **Recruiter** | `hr@persistentsy.com` | Post openings, shortlist on the pipeline board, schedule interviews, make offers |
+| **Recruiter** | `hr@persistentsyst.com` | Post openings, shortlist on the pipeline board, schedule interviews, make offers |
 
 The other three project authors also have student logins — `arman.singh@mitadt.edu.in`,
 `ayush@mitadt.edu.in` and `diksha.bhanushali@mitadt.edu.in` — each with a different mix of

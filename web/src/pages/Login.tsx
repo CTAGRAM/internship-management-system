@@ -7,7 +7,7 @@ import { Button, Field, Input } from '../components/ui';
 const DEMOS = [
   { role: 'Placement Officer', email: 'tpo@mitadt.edu.in', blurb: 'Full oversight, reports and analytics' },
   { role: 'Student', email: 'bhaskar.kumar@mitadt.edu.in', blurb: 'Browse, apply and track applications' },
-  { role: 'Recruiter', email: 'hr@persistentsy.com', blurb: 'Post openings and shortlist candidates' },
+  { role: 'Recruiter', email: 'hr@persistentsyst.com', blurb: 'Post openings and shortlist candidates' },
 ];
 
 export default function Login() {
