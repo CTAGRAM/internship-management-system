@@ -7,6 +7,9 @@ track every application from *applied* through to *selected*. Recruiters post op
 candidates on a drag-and-drop board and schedule interviews. The placement office oversees the whole
 process from one dashboard and exports the records it needs for reporting.
 
+**▶ Live demo: <https://ims-mitadt.vercel.app>** — sign in with one click as a student, a recruiter
+or the placement officer. *(Demo storage resets periodically; see [Deployment](#deployment).)*
+
 > Project-Based Learning submission — Department of Computer Science & Engineering,
 > MIT School of Computing, MIT ADT University, Pune.
 > **Group ID:** TYCC306 · **Guide:** Dr. Rajani Sajjan
@@ -350,6 +353,8 @@ anywhere other than your own machine.
 ## Deployment
 
 ### Vercel (live demo)
+
+**Deployed at <https://ims-mitadt.vercel.app>.**
 
 The repository is wired for Vercel: `vercel.json` builds the frontend to `web/dist`, serves it from
 the CDN, and runs the Express app as a single serverless function behind `/api`. Pushing to `main`

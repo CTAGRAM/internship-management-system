@@ -8,3 +8,4 @@ server/data/
 server/uploads/*
 !server/uploads/.gitkeep
 coverage/
+.vercel
