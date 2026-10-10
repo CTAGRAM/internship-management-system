@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    container_name: internship-management-system
+    ports:
+      - "4000:4000"
+    environment:
+      # Change this before exposing the app outside your machine.
+      JWT_SECRET: change-me-in-production
+      NODE_ENV: production
+    volumes:
+      # Keeps the SQLite database and uploaded resumes across restarts.
+      - ims-data:/app/server/data
+      - ims-uploads:/app/server/uploads
+    restart: unless-stopped
+
+volumes:
+  ims-data:
+  ims-uploads:

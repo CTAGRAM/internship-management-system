@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.env
+.DS_Store
+# SQLite database and its WAL/SHM sidecars - created on first run
+server/data/
+server/uploads/*
+!server/uploads/.gitkeep
+coverage/
