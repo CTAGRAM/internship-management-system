@@ -150,6 +150,45 @@ function NotificationBell() {
   );
 }
 
+/* ------------------------------------------------------- demo-mode notice */
+/**
+ * The serverless deployment stores its database in temporary storage, so the
+ * data resets whenever a cold instance starts. Say so plainly rather than
+ * letting someone lose work they thought was saved.
+ */
+function DemoNotice() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('ims.demoNoticeDismissed')) return;
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((d) => setShow(String(d.storage ?? '').startsWith('ephemeral')))
+      .catch(() => {});
+  }, []);
+
+  if (!show) return null;
+  return (
+    <div className="flex items-start gap-2.5 border-b border-gold-300 bg-gold-50 px-4 py-2 text-sm text-gold-900 dark:border-gold-800 dark:bg-gold-900/40 dark:text-gold-100 sm:px-6">
+      <span className="min-w-0 flex-1">
+        <strong className="font-semibold">Live demo.</strong>{' '}
+        This deployment uses temporary storage, so anything you change resets when the server
+        restarts. Run it locally for a database that persists.
+      </span>
+      <button
+        onClick={() => {
+          sessionStorage.setItem('ims.demoNoticeDismissed', '1');
+          setShow(false);
+        }}
+        className="-m-1 shrink-0 rounded p-1 transition hover:bg-gold-200/60 dark:hover:bg-gold-800/60"
+        aria-label="Dismiss demo notice"
+      >
+        <IconX className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 /* -------------------------------------------------------------------- Shell */
 export function Shell({ children }: { children: React.ReactNode }) {
   const { user, logout, student, company } = useAuth();
@@ -241,6 +280,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
+        <DemoNotice />
         <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-line bg-surface/85 px-3 backdrop-blur-md sm:px-5">
           <button
             onClick={() => setMobileOpen(true)}

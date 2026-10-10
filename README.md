@@ -25,6 +25,7 @@ process from one dashboard and exports the records it needs for reporting.
 - [API reference](#api-reference)
 - [Database schema](#database-schema)
 - [Running with Docker](#running-with-docker)
+- [Deployment](#deployment)
 - [Tests](#tests)
 - [Configuration](#configuration)
 - [Team](#team)
@@ -161,7 +162,8 @@ they install from prebuilt binaries and need no compiler.
 internship-management-system/
 ├── server/                     # Express API
 │   ├── src/
-│   │   ├── index.js            # App entry: middleware, routes, static hosting
+│   │   ├── app.js              # Builds the Express app: middleware, routes, static hosting
+│   │   ├── index.js            # Listens on a port (normal server entry)
 │   │   ├── db.js               # SQLite connection, applies schema on boot
 │   │   ├── schema.sql          # Full relational schema, safe to re-run
 │   │   ├── auth.js             # JWT signing, password hashing, role guards
@@ -176,8 +178,10 @@ internship-management-system/
 │       ├── lib/                # API client, auth context, formatters, hooks
 │       ├── components/         # UI kit, app shell, charts, icons
 │       └── pages/              # student/ · recruiter/ · admin/ · shared/
+├── api/
+│   └── index.js                # Vercel serverless entry (re-exports the app)
 ├── docs/screenshots/
-├── Dockerfile · docker-compose.yml
+├── Dockerfile · docker-compose.yml · vercel.json
 └── package.json                # npm workspaces, top-level scripts
 ```
 
@@ -340,6 +344,50 @@ docker compose up --build
 The app is then on <http://localhost:4000>. The database and uploaded resumes persist in named
 volumes across restarts. Set a real `JWT_SECRET` in `docker-compose.yml` before putting this
 anywhere other than your own machine.
+
+---
+
+## Deployment
+
+### Vercel (live demo)
+
+The repository is wired for Vercel: `vercel.json` builds the frontend to `web/dist`, serves it from
+the CDN, and runs the Express app as a single serverless function behind `/api`. Pushing to `main`
+redeploys automatically.
+
+> [!IMPORTANT]
+> **The Vercel deployment is a demo, not a persistent instance.** Serverless functions get a
+> read-only project directory and a temporary `/tmp`, so the SQLite database and any uploaded
+> resumes live only as long as that instance does. The app detects this (`process.env.VERCEL`),
+> stores its data under `/tmp`, reseeds itself on a cold start, and shows a banner saying so.
+> Changes you make are real and immediate, but they disappear when the instance recycles.
+>
+> For a deployment that keeps its data, use any host with a disk — Render, Railway, Fly.io, a VPS,
+> or the Docker setup above. Nothing needs to change: the same code sees a writable directory and
+> stores everything under `server/`.
+
+To deploy your own copy:
+
+```bash
+npm i -g vercel
+vercel          # preview
+vercel --prod   # production
+```
+
+Set `JWT_SECRET` in the project's environment variables.
+
+### Persistent hosting
+
+Any Node host with a writable disk works with no code changes:
+
+```bash
+npm install
+npm start       # builds the frontend and serves everything on $PORT
+```
+
+Point a persistent volume at `server/data` (database) and `server/uploads` (resumes). On Render,
+that is a single disk mounted at `/app/server`; the included `Dockerfile` already declares both as
+volumes.
 
 ---
 

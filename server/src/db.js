@@ -4,8 +4,21 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-export const DATA_DIR = path.join(here, '..', 'data');
-export const UPLOAD_DIR = path.join(here, '..', 'uploads');
+
+/**
+ * On a serverless host (Vercel) the project directory is read-only and only
+ * /tmp is writable, so the database and uploads move there. That storage is
+ * per-instance and temporary, which is why the Vercel deployment is a demo:
+ * it reseeds itself whenever a cold instance starts. A normal server, Docker
+ * or any host with a disk keeps everything under server/ as usual.
+ */
+const SERVERLESS = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+export const DATA_DIR =
+  process.env.DATA_DIR || (SERVERLESS ? '/tmp/ims-data' : path.join(here, '..', 'data'));
+export const UPLOAD_DIR =
+  process.env.UPLOAD_DIR || (SERVERLESS ? '/tmp/ims-uploads' : path.join(here, '..', 'uploads'));
+export const IS_EPHEMERAL = SERVERLESS;
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
